@@ -1,0 +1,66 @@
+diff --git a/packages/client/ui-chat/src/client/chat/TurnTailNodeView.tsx b/packages/client/ui-chat/src/client/chat/TurnTailNodeView.tsx
+index 36c76b7c26..2d7cb1007f 100644
+--- a/packages/client/ui-chat/src/client/chat/TurnTailNodeView.tsx
++++ b/packages/client/ui-chat/src/client/chat/TurnTailNodeView.tsx
+@@ -7,7 +7,7 @@ import { assistantText } from './turn-assistant.ts'
+ import css from './TurnTailNodeView.module.css'
+ 
+ type TurnTailNodeViewProps = ChatNodeViewProps<'turn-tail'>
+-  & PropsRenderSlots<'conversation.chat.turnTail' | 'conversation.chat.assistant-actions'>
++  & PropsRenderSlots<'conversation.chat.turnTail' | 'conversation.chat.assistant-actions' | 'conversation.chat.turn-stats'>
+ 
+ /** Turn-local actions and feature tail over the Location index, independent of Assistant placement. */
+ export const TurnTailNodeView = memo(function TurnTailNodeView({
+@@ -34,6 +34,9 @@ export const TurnTailNodeView = memo(function TurnTailNodeView({
+   const assistantActions = messageId === undefined
+     ? null
+     : renderSlot('conversation.chat.assistant-actions', { messageId })
++  // @meta-intent:begin dsh-reply-model-hint turn-stats-render
++  const turnStats = renderSlot('conversation.chat.turn-stats', owner)
++  // @meta-intent:end dsh-reply-model-hint turn-stats-render
+   return (
+     <div
+       className={css.root}
+@@ -51,6 +54,7 @@ export const TurnTailNodeView = memo(function TurnTailNodeView({
+         extraActions={assistantActions}
+         usageAction={(
+           <>
++            {turnStats}
+             {data.tokenUsage !== undefined && <TurnUsagePanel usage={data.tokenUsage} t={t} />}
+             {runMs !== undefined && (
+               <TurnTimePanel
+diff --git a/packages/client/ui-chat/src/client/chat/register-node-renderers.ts b/packages/client/ui-chat/src/client/chat/register-node-renderers.ts
+index e58ec4a9ad..7b17f8147e 100644
+--- a/packages/client/ui-chat/src/client/chat/register-node-renderers.ts
++++ b/packages/client/ui-chat/src/client/chat/register-node-renderers.ts
+@@ -50,6 +50,9 @@ export function registerChatNodeRenderers(ctx: Context): void {
+     children: {
+       'conversation.chat.turnTail': { kind: 'chain', scope: 'session' },
+       'conversation.chat.assistant-actions': { kind: 'list', scope: 'session' },
++      // @meta-intent:begin dsh-reply-model-hint turn-stats-child
++      'conversation.chat.turn-stats': { kind: 'list', scope: 'session' },
++      // @meta-intent:end dsh-reply-model-hint turn-stats-child
+     },
+   }, TurnTailNodeView))
+   ctx.slots.inject('conversation.chat.node', () => ctx.slots.register(
+diff --git a/packages/client/ui-chat/src/client/contract/slots.ts b/packages/client/ui-chat/src/client/contract/slots.ts
+index 307d8f703b..3a8bde4626 100644
+--- a/packages/client/ui-chat/src/client/contract/slots.ts
++++ b/packages/client/ui-chat/src/client/contract/slots.ts
+@@ -200,6 +200,16 @@ declare module '@deepseek-ai/dsh-client-ui-slots' {
+      * that entry. With no entries, the standard action row remains unchanged.
+      */
+     'conversation.chat.assistant-actions': { kind: 'list'; scope: 'session'; owner: AssistantActionOwnerProps }
++    // @meta-intent:begin dsh-reply-model-hint turn-stats-slot
++    /**
++     * Ordered turn-stat pills seated before the shipped usage/time triggers in
++     * the completed-Turn IconActions row. Each entry receives the Turn, closing
++     * sequence, and file opener. A fresh `id` adds a pill and reusing one
++     * replaces that entry. With no entries, the shipped usage/time row remains
++     * unchanged.
++     */
++    'conversation.chat.turn-stats': { kind: 'list', scope: 'session', owner: TurnTailOwnerProps }
++    // @meta-intent:end dsh-reply-model-hint turn-stats-slot
+     /**
+      * Whole details-panel body for the selected Tool call. The component receives
+      * the running or settled block and optional workspace root. A registration

@@ -1,0 +1,6 @@
+# dsh-reply-model-hint bundle layer. Browser-only client plugin: the host
+# half is a no-op; this row adds the plugin to the dsh.client browser roster.
+- insert:
+    - id: reply-model-hint
+      name: '@dsh-external/dsh-reply-model-hint'
+      config: {}
