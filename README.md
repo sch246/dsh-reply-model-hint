@@ -11,7 +11,7 @@ public `assistant-actions` list.
 
 ## Install
 
-Follow `.intent/state/STATE.md`. Short path on this machine:
+Follow [STATE](.intent/state/STATE.md), including target drift and the manual owned-removal route. Short path on this machine:
 
 ```sh
 DSH_CHECKOUT=/root/deepseek-harness bash scripts/setup.sh
