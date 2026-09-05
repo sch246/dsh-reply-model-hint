@@ -2,9 +2,9 @@
 
 Status: live install guide for DeepSeek Harness `dsh-v0.1.2-alpha.2` (`0a53fb55bea101816fa226bb964ae2bed71c343b`).
 
-## Using and maintaining this map
+## Map entry
 
-Use this STATE as the installation and maintenance prompt. Its first map is incomplete: investigate the selected Host and learn while realizing the desired effects. Update the map when actual user feedback or checked environmental facts change a route, requirement or evidence limit; do not promote an old Agent claim into a user preference. LOG preserves consequential reasons selectively. A realization LOCK is optional exact-recovery evidence, not a prerequisite for useful work or acceptance. This repository currently has a Markdown map without STATE.json or a selected protocol; this documentation update does not silently adopt one.
+Use [Agent install](#agent-install-do-not-restart-unless-asked), [Changed Host and composition](#changed-host-and-composition) and [Uninstall route](#uninstall-route) for the selected deployment. This repository has a Markdown STATE without STATE.json or a selected protocol.
 
 ## Intent
 
