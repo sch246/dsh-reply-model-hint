@@ -1,3 +1,5 @@
 node_modules/
+lib/
+harness
 *.tsbuildinfo
-.DS_Store
+*.tgz

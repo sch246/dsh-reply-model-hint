@@ -1,0 +1,52 @@
+{
+  "name": "@dsh-external/dsh-reply-model-hint",
+  "version": "0.1.0",
+  "description": "DSH Web client plugin: a small model hint under each completed reply, read from the assistant message provenance.",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sch246/dsh-reply-model-hint.git"
+  },
+  "homepage": "https://github.com/sch246/dsh-reply-model-hint#readme",
+  "bugs": {
+    "url": "https://github.com/sch246/dsh-reply-model-hint/issues"
+  },
+  "private": true,
+  "type": "module",
+  "main": "./lib/index.js",
+  "types": "./lib/types/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./lib/types/index.d.ts",
+      "default": "./lib/index.js"
+    },
+    "./client": {
+      "types": "./lib/types/client/index.d.ts",
+      "default": "./lib/client.js"
+    },
+    "./package.json": "./package.json"
+  },
+  "files": [
+    "lib",
+    "cordis.patch.yml",
+    "README.md",
+    "LICENSE",
+    "patches"
+  ],
+  "license": "MIT",
+  "peerDependencies": {
+    "@deepseek-ai/cordis": ">=4.0.0-rc <5"
+  },
+  "dsh": {
+    "bundle": {
+      "patch": "./cordis.patch.yml"
+    },
+    "client": {
+      "inject": [
+        "@deepseek-ai/dsh-client-ui-renderer",
+        "@deepseek-ai/dsh-client-ui-conversation",
+        "@deepseek-ai/dsh-client-ui-chat"
+      ],
+      "platform": "web"
+    }
+  }
+}
